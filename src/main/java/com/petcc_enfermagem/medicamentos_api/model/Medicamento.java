@@ -1,58 +1,110 @@
 package com.petcc_enfermagem.medicamentos_api.model;
 
 import java.util.List;
-import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Medicamento {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
+    
     @NotBlank
-    private String nome;
-    private String descricao;
-    @OneToMany(mappedBy = "medicamento", cascade = CascadeType.ALL)
-    private List<Apresentacao> apresentacoes;
+    private String name;
+    
+    @NotBlank
+    private String variation;
+    
+    @Positive
+    private Double volumeMl;
+    
+    @Positive
+    private Double amountMg;
+    
+    @Positive
+    private Double mgPerKgDefault;
+    
+    private String description;
+    
+    @ElementCollection
+    private List<String> indications;
+    
+    private String image;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getVariation() {
+        return variation;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setVariation(String variation) {
+        this.variation = variation;
     }
 
-    public List<Apresentacao> getApresentacoes() {
-        return apresentacoes;
+    public Double getVolumeMl() {
+        return volumeMl;
     }
 
-    public void setApresentacoes(List<Apresentacao> apresentacoes) {
-        this.apresentacoes = apresentacoes;
+    public void setVolumeMl(Double volumeMl) {
+        this.volumeMl = volumeMl;
     }
 
+    public Double getAmountMg() {
+        return amountMg;
+    }
+
+    public void setAmountMg(Double amountMg) {
+        this.amountMg = amountMg;
+    }
+
+    public Double getMgPerKgDefault() {
+        return mgPerKgDefault;
+    }
+
+    public void setMgPerKgDefault(Double mgPerKgDefault) {
+        this.mgPerKgDefault = mgPerKgDefault;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getIndications() {
+        return indications;
+    }
+
+    public void setIndications(List<String> indications) {
+        this.indications = indications;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

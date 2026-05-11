@@ -1,0 +1,96 @@
+@baseUrl = http://localhost:8080/api
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc3ODQ3NTYwMiwiZXhwIjoxNzc4NTYyMDAyfQ.p1PjsYZoDvRKBG-gkyN669FrNyeDCk1xVvzmm72HNJcCmNpfPIcfk9hl8gNxN_iZ-UHbzy-shgzVwCiw2-B_9A
+### CRUD Operations Test Suite
+
+### 1. CREATE - Add new medication
+POST {{baseUrl}}/medicamentos
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "test-antibiotico-500mg",
+  "name": "Test Antibiótico novissimo",
+  "variation": "500 mg / 1 mL",
+  "volumeMl": 1,
+  "amountMg": 500,
+  "mgPerKgDefault": 20,
+  "description": "Medicamento de teste para CRUD operations",
+  "indications": ["Teste", "Desenvolvimento"],
+  "image": "/images/ampola.svg"
+}
+
+### 2. READ - Verify medication was created
+GET {{baseUrl}}/medicamentos/test-antibiotico-500mg
+
+### 3. READ - List all medications (should include test med)
+GET {{baseUrl}}/medicamentos
+
+### 4. UPDATE - Modify the test medication
+PUT {{baseUrl}}/medicamentos/test-antibiotico-500mg
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "test-antibiotico-500mg",
+  "name": "Test Antibiótico ATUALIZADO",
+  "variation": "500 mg / 2 mL",
+  "volumeMl": 2,
+  "amountMg": 500,
+  "mgPerKgDefault": 25,
+  "description": "Medicamento de teste - MODIFICADO",
+  "indications": ["Teste", "Desenvolvimento", "Verificação"],
+  "image": "/images/ampola.svg"
+}
+
+### 5. READ - Verify update
+GET {{baseUrl}}/medicamentos/test-antibiotico-500mg
+
+### 6. DELETE - Remove test medication
+DELETE {{baseUrl}}/medicamentos/test-antibiotico-500mg
+Authorization: Bearer {{userToken}}
+
+### 7. READ - Verify deletion (should return 404)
+GET {{baseUrl}}/medicamentos/test-antibiotico-500mg
+
+### Additional Test Cases
+
+### Test: Update existing medication (Dipirona)
+PUT {{baseUrl}}/medicamentos/dipirona-1g-2ml
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "dipirona-1g-2ml",
+  "name": "Dipirona Sódica",
+  "variation": "1 g / 2 mL",
+  "volumeMl": 2,
+  "amountMg": 1000,
+  "mgPerKgDefault": 12,
+  "description": "Analgésico - dosagem reduzida",
+  "indications": ["Dor leve", "Febre moderada"],
+  "image": "/images/ampola.svg"
+}
+
+### Test: Create another test medication
+POST {{baseUrl}}/medicamentos
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "acido-ascorbico-500mg",
+  "name": "Ácido Ascórbico",
+  "variation": "500 mg / 2 mL",
+  "volumeMl": 2,
+  "amountMg": 500,
+  "mgPerKgDefault": 10,
+  "description": "Vitamina C para suplementação",
+  "indications": ["Deficiência de vitamina C", "Suplementação"],
+  "image": "/images/ampola.svg"
+}
+
+### Test: Get all medications (verify creation)
+GET {{baseUrl}}/medicamentos
+
+### Test: Delete the new medication
+DELETE {{baseUrl}}/medicamentos/acido-ascorbico-500mg
+Authorization: Bearer {{userToken}}

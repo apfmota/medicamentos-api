@@ -1,0 +1,112 @@
+@baseUrl = http://localhost:8080/api
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5vdm91c3VhcmlvMiIsImlhdCI6MTc3ODQ2ODcyNCwiZXhwIjoxNzc4NTU1MTI0fQ.yJ4g54XmlvRED--5kyPpDAqUDBhmbwAvmlt2ELoQ36IfqTx9F1JNdtXOOQJTZsvSfhy7fCG8l-wG1ao2DaZkmQ 
+
+### Register new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "novousuario2",
+  "senha": "senha123"
+}
+
+### Login as Admin
+# Username: admin | Password: admin123
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "senha": "admin123"
+}
+
+### Login as Regular User
+# Username: user | Password: user123
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "senha": "user123"
+}
+
+### Invalid login (wrong password)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "senha": "wrongpassword"
+}
+
+### Invalid login (non-existent user)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "naoexiste",
+  "senha": "senha123"
+}
+
+### GET all medications (no token - should work as public endpoint)
+GET {{baseUrl}}/medicamentos
+
+### GET all medications with user token
+GET {{baseUrl}}/medicamentos
+Authorization: Bearer {{userToken}}
+
+### Create medication (ADMIN only - should fail without token)
+POST {{baseUrl}}/medicamentos
+Content-Type: application/json
+
+{
+  "id": "sem-token-med",
+  "name": "Test",
+  "variation": "100 mg / 1 mL",
+  "volumeMl": 1,
+  "amountMg": 100,
+  "mgPerKgDefault": 10,
+  "description": "Test",
+  "indications": ["Test"]
+}
+
+### Create medication with USER token (should fail - not authorized)
+POST {{baseUrl}}/medicamentos
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "user-token-med",
+  "name": "Test",
+  "variation": "100 mg / 1 mL",
+  "volumeMl": 1,
+  "amountMg": 100,
+  "mgPerKgDefault": 10,
+  "description": "Test",
+  "indications": ["Test"]
+}
+
+### Update medication with ADMIN token (should succeed)
+PUT {{baseUrl}}/medicamentos/dipirona-1g-2ml
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "id": "dipirona-1g-2ml",
+  "name": "Dipirona Sódica",
+  "variation": "1 g / 2 mL",
+  "volumeMl": 2,
+  "amountMg": 1000,
+  "mgPerKgDefault": 15,
+  "description": "ATUALIZADO POR ADMIN",
+  "indications": ["Dor aguda", "Febre"],
+  "image": "/images/ampola.svg"
+}
+
+### Delete medication with USER token (should fail - not authorized)
+DELETE {{baseUrl}}/medicamentos/test-med
+Authorization: Bearer {{userToken}}
+
+### Delete medication with ADMIN token (should succeed)
+DELETE {{baseUrl}}/medicamentos/test-med
+Authorization: Bearer {{userToken}}
