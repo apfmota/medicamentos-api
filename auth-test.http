@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "senha": "admin123"
+  "senha": "senha"
 }
 
 ### Login as Regular User
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
   "username": "user",
-  "senha": "user123"
+  "senha": "senha"
 }
 
 ### Invalid login (wrong password)
