@@ -2,11 +2,13 @@ package com.petcc_enfermagem.medicamentos_api.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Medicamento {
@@ -14,21 +16,22 @@ public class Medicamento {
     @Id
     private String id;
     
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
     
-    @NotBlank
+    @NotBlank(message = "Variação é obrigatória")
     private String variation;
     
-    @Positive
+    @Positive(message = "Volume deve ser maior que 0")
     private Double volumeMl;
     
-    @Positive
+    @Positive(message = "Quantidade deve ser maior que 0")
     private Double amountMg;
     
-    @Positive
     private Double mgPerKgDefault;
     
+    @Size(max = 1000, message = "Descrição não pode exceder 1000 caracteres")
+    @Column(length = 1000)
     private String description;
     
     @ElementCollection
